@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mapBoxToken = process.env.MAPBOX_TOKEN
+const port = process.env.PORT || 8081
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -22,6 +23,6 @@ app.post('/', (req, res) => {
     res.send(req.body);
 })
 
-app.listen(8081, () => {
-	console.log("APP IS LISTENING ON PORT 8081!");
+app.listen(port, () => {
+	console.log(`APP IS LISTENING ON PORT ${port}!`);
 })    
