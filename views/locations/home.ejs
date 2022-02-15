@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/css/app.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+    
+</head>
+<body>
+    <head>
+        <section class="header-section">
+            <h1>LOCATION</h1>
+        </section>
+    </head>
+    <main>
+        <!-- Load the `mapbox-gl-geocoder` plugin. -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
+        <section class="map-section">
+            <div id="map"></div>
+            <pre id="info"></pre>
+            
+            <form action="/" method="POST">
+                <input type="text" id="longitude" name="longitude" hidden="true">
+                <input type="text" id="latitude" name="latitude" hidden="true">
+                <button>Submit</button>
+            </form>
+        </section>
+    </main>
+    
+     
+    <script src="/static/js/app.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <script>
+        const mapToken = '<%- process.env.MAPBOX_TOKEN %>'
+        const lon = document.querySelector('#longitude'); 
+        const lat = document.querySelector('#latitude');        
+
+        mapboxgl.accessToken = mapToken;
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-69.8412, 18.5668],
+            zoom: 10
+        });
+ 
+        // Add the control to the map.
+        map.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+            })
+        );
+
+        const coord = [];
+
+        map.on('click', (e) => {
+            coord.push(e.lngLat.wrap());
+            alert(`Your location is: ${coord[0].lng}, ${coord[0].lat}`)
+            lon.value = coord[0].lng;
+            lat.value = coord[0].lat;
+
+             const marker1 = new mapboxgl.Marker()
+            .setLngLat([coord[0].lng, coord[0].lat])
+            .addTo(map);
+
+        })
+
+       
+        map.addControl(new mapboxgl.NavigationControl());
+    
+    </script>
+</body>
+</html>
