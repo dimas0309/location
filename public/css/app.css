@@ -38,7 +38,8 @@ body {
     background: #90E0EF;
 }
 
-.map-section button {
+
+.map-section form button {
     padding: 10px;
     transform: translateX(300px);
     font-weight: 700;
@@ -47,7 +48,7 @@ body {
     border-radius: 1rem;
 }
 
-.map-section button:hover {
+.map-section form button:hover {
     background-color: #00B4D8;
     color: #03045E;
 }
